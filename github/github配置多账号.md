@@ -11,7 +11,7 @@ git config --global user.email "yangyz@zhiwyl.com"
 git config --list
 
 // 配置局部账号
-git config user.name "DaisySkr"
+git config user.name "daisyskr"
 git config user.email "3218387007@qq.com"
 
 // 查看本地配置
@@ -27,44 +27,49 @@ ssh-keygen -t rsa -C "yangyz@zhiwyl.com"
 ssh-keygen -t rsa -C "3218387007@qq.com"
 ```
 
-#### ![image-20231219092355783](D:\work\testcode\readme\github\github配置多账号.assets\image-20231219092355783.png)3.在对应账号配置公钥SSH
+#### ![image-20231219092355783](D:\work\testcode\daisyskr\notes\github\github配置多账号.assets\image-20231219092355783.png)3.在对应账号配置公钥SSH
 
 将第2步对应账号.pub文件中的内容复制到下边
 
-#### ![image-20231219092728360](D:\work\testcode\readme\github\github配置多账号.assets\image-20231219092728360.png)4.配置config
+![image-20231222110814073](D:\work\testcode\daisyskr\notes\github\github配置多账号.assets\image-20231222110814073.png)
+
+#### 4.配置config
 
 config 文件在 默认生成公私钥的位置(.ssh目录下)，如果没有这个文件，可以自行手动创建
 
-![image-20231219093031180](D:\work\testcode\readme\github\github配置多账号.assets\image-20231219093031180.png)
+![image-20231219093031180](D:\work\testcode\daisyskr\notes\github\github配置多账号.assets\image-20231219093031180.png)
 
 ```nginx
 # 举例
-# Host：仓库网站的别名，随意取
+# Host：仓库网站的别名，随意取。最好是网站ip保持一致(即用ssh clone代码时的那个ip)，这样zgit clone时就不用再修改地址了
 # HostName：仓库网站的域名（PS：IP 地址应该也可以）
 # User：仓库网站上的用户名
 # IdentityFile：私钥的绝对路径
 # Port：SSH默认端口号为22，某些私有部署的git仓库会更换端口号
 
 
-# 配置 daisyskr	ssh -T git@daisyskr
-Host daisyskr
+# 配置 daisyskr	ssh -T git@github.com
+Host github.com
 HostName github.com
-User DaisySkr
+User daisyskr
 IdentityFile ~/.ssh/id_rsa_daisyskr
 
 # 配置 zwyl
-Host zwyl
+Host 192.168.1.91:9622
 HostName 192.168.1.91    #这也可以是 ip 地址
 User yangyuzhuo
 IdentityFile ~/.ssh/id_rsa
-Port 9680
+Port 9622
 ```
 
 #### 5.测试
 
 ```nginx
-$ ssh -T git@daisyskr
-Hi DaisySkr! You've successfully authenticated, but GitHub does not provide shell access.
+$ ssh -T git@github.com
+Hi daisyskr! You've successfully authenticated, but GitHub does not provide shell access.
+
+$ ssh -T git@192.168.1.91:9622
+Welcome to GitLab, @yangyz!
 ```
 
 #### 6.拉取代码
@@ -76,17 +81,18 @@ git init
 git config --list --local
 git config --list --global
 //配置本地账户信息
-git config user.name "DaisySkr"
+git config user.name "daisyskr"
 git config user.email "3218387007@qq.com"
-//拉取仓库代码（注意将github.com替换成config文件中配置的Host名，p）
-git clone git@daisyskr:DaisySkr/code.git
+//拉取仓库代码（注意将github.com替换成config文件中配置的Host名）
+//git clone git@daisyskr:daisyskr/code.git
+git clone git@github.com:daisyskr/map.git
 ```
 
-![image-20231219095826907](D:\work\testcode\readme\github\github配置多账号.assets\image-20231219095826907.png)
+![image-20231222111424071](D:\work\testcode\daisyskr\notes\github\github配置多账号.assets\image-20231222111424071.png)
 
-![image-20231219094433586](D:\work\testcode\readme\github\github配置多账号.assets\image-20231219094433586.png)
+![image-20231222111447566](D:\work\testcode\daisyskr\notes\github\github配置多账号.assets\image-20231222111447566.png)
 
-![image-20231219095100388](D:\work\testcode\readme\github\github配置多账号.assets\image-20231219095100388.png)
+![image-20231219095100388](D:\work\testcode\daisyskr\notes\github\github配置多账号.assets\image-20231219095100388.png)
 
 #### 补充知识：
 
